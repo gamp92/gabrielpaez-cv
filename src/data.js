@@ -46,7 +46,7 @@ export const SITE = {
 
   // Cloudflare Web Analytics token — paste yours after deploying.
   // Get it from: https://dash.cloudflare.com → Analytics & Logs → Web Analytics → Add a site
-  cfAnalyticsToken: '', // e.g. 'a1b2c3d4e5f6...'
+  cfAnalyticsToken: 'b858db346d9c4fb3a5679b7f226f764b', // e.g. 'a1b2c3d4e5f6...'
 };
 
 // =====================================================================
