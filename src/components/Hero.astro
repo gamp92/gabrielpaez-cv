@@ -1,0 +1,122 @@
+---
+import { SITE } from '../data.js';
+---
+
+<section class="px-6 md:px-12 lg:px-16 pt-12 md:pt-16 pb-8 max-w-6xl mx-auto">
+  <!-- Top bar: monogram + status -->
+  <div class="flex items-center justify-between mb-12 md:mb-16 reveal">
+    <!-- Monogram -->
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 border border-ink flex items-center justify-center font-mono font-bold text-sm tracking-tight">
+        {SITE.initials}
+      </div>
+      <span class="font-mono text-xs text-ink-muted hidden sm:inline">/ gabrielpaez.dev</span>
+    </div>
+
+    <!-- Status pill -->
+    {SITE.available && (
+      <div class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-muted">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal opacity-60"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-signal"></span>
+        </span>
+        <span class="hidden sm:inline">Open to opportunities</span>
+        <span class="sm:hidden">Available</span>
+      </div>
+    )}
+  </div>
+
+  <!-- Name + headline -->
+  <div class="reveal" data-delay="1">
+    <h1 class="text-display font-mono mb-6">
+      Gabriel Paez<span class="text-signal">.</span>
+    </h1>
+  </div>
+
+  <div class="reveal" data-delay="2">
+    <p class="text-base md:text-lg text-ink-soft max-w-2xl leading-relaxed mb-4">
+      M.Sc. Chemical Engineer turned <strong class="text-ink font-semibold">Software Quality Engineer</strong>.
+      Test automation, AI-powered testing, and CI/CD at scale. Currently at Qualtrics — previously Aspen Technology.
+    </p>
+    <p class="font-mono text-xs text-ink-muted">
+      {SITE.availableFor}
+    </p>
+  </div>
+
+  <!-- Meta row -->
+  <div class="reveal mt-10 pt-8 border-t border-ink/10 grid grid-cols-2 md:grid-cols-4 gap-6" data-delay="3">
+    <div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-ink-faint mb-1">Location</div>
+      <div class="font-mono text-sm text-ink">{SITE.location}</div>
+    </div>
+    <div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-ink-faint mb-1">Experience</div>
+      <div class="font-mono text-sm text-ink">5+ years</div>
+    </div>
+    <div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-ink-faint mb-1">Cert.</div>
+      <div class="font-mono text-sm text-ink">ISTQB Foundations</div>
+    </div>
+    <div>
+      <div class="font-mono text-[10px] uppercase tracking-widest text-ink-faint mb-1">Stack</div>
+      <div class="font-mono text-sm text-ink">Python · Pytest · CI/CD</div>
+    </div>
+  </div>
+
+  <!-- CTAs -->
+  <div class="reveal mt-10 flex flex-wrap gap-3" data-delay="4">
+    <a
+      href="/Gabriel_Paez_CV.pdf"
+      download
+      class="inline-flex items-center gap-2 font-mono text-xs px-5 py-3 bg-ink text-bone-50 hover:bg-signal-dark transition-colors duration-200"
+    >
+      <span>↓</span> Download CV (PDF)
+    </a>
+    <button
+      id="copy-email-btn"
+      class="inline-flex items-center gap-2 font-mono text-xs px-5 py-3 border border-ink text-ink hover:bg-ink hover:text-bone-50 transition-colors duration-200"
+      data-email={SITE.email}
+    >
+      <span id="copy-email-text">→ Copy email</span>
+    </button>
+    <a
+      href={SITE.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 font-mono text-xs px-5 py-3 border border-ink/30 text-ink-soft hover:border-ink hover:text-ink transition-colors duration-200"
+    >
+      → LinkedIn
+    </a>
+    <a
+      href={SITE.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 font-mono text-xs px-5 py-3 border border-ink/30 text-ink-soft hover:border-ink hover:text-ink transition-colors duration-200"
+    >
+      → GitHub
+    </a>
+  </div>
+</section>
+
+<script>
+  // Copy-to-clipboard for email button
+  const btn = document.getElementById('copy-email-btn');
+  const txt = document.getElementById('copy-email-text');
+  if (btn && txt) {
+    btn.addEventListener('click', async () => {
+      const email = btn.getAttribute('data-email');
+      if (!email) return;
+      try {
+        await navigator.clipboard.writeText(email);
+        const original = txt.textContent;
+        txt.textContent = '✓ Copied: ' + email;
+        setTimeout(() => {
+          txt.textContent = original;
+        }, 2400);
+      } catch (err) {
+        // Fallback for older browsers / insecure contexts
+        txt.textContent = email;
+      }
+    });
+  }
+</script>

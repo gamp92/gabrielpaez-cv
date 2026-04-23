@@ -1,0 +1,126 @@
+---
+import '../styles/global.css';
+import { SITE } from '../data.js';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = SITE.seoTitle,
+  description = SITE.seoDescription,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL('/og-image.png', Astro.site).toString();
+
+// Schema.org Person — this is what makes Google recognize you as an entity.
+// Critical for "Gabriel Paez" branded searches.
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  jobTitle: SITE.title,
+  email: `mailto:${SITE.email}`,
+  url: SITE.domain,
+  sameAs: [SITE.linkedin, SITE.github],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Mexico City',
+    addressCountry: 'MX',
+  },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Qualtrics',
+  },
+  alumniOf: [
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'Universidad Nacional Autónoma de México',
+    },
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'Universidad de Carabobo',
+    },
+  ],
+  knowsAbout: [
+    'Software Quality Engineering',
+    'Test Automation',
+    'AI Testing',
+    'CI/CD',
+    'Python',
+    'Selenium',
+    'Pytest',
+    'Chemical Engineering',
+  ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Primary SEO -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content={SITE.seoKeywords.join(', ')} />
+  <meta name="author" content={SITE.name} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph (LinkedIn, Facebook, Slack previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:site_name" content={SITE.name} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Favicon (replace with real one — see public/favicon.svg) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Schema.org structured data — critical for SEO -->
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <!-- Theme color for mobile browser chrome -->
+  <meta name="theme-color" content="#fafaf7" />
+</head>
+<body>
+  <slot />
+
+  <!-- Reveal-on-scroll: progressive enhancement, IntersectionObserver -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+
+  {/* Cloudflare Web Analytics — paste token in src/data.js after deploying */}
+  {SITE.cfAnalyticsToken && (
+    <script
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token": "${SITE.cfAnalyticsToken}"}`}
+    />
+  )}
+</body>
+</html>

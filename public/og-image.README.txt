@@ -1,0 +1,16 @@
+Place a 1200x630 PNG here named `og-image.png`.
+
+This image is what appears when your site is shared on LinkedIn, Twitter, Slack,
+WhatsApp, etc. It is one of the highest-impact pieces of branding on the entire site.
+
+Recommendations:
+- 1200x630 PNG, under 200 KB
+- Match the site aesthetic: bone background, IBM Plex Mono, "GP" monogram, your name
+- Include the headline tagline so the preview is informative even without the click
+
+Quick options to create one:
+1. Figma / Canva (5 min)
+2. https://og-image.vercel.app/ (free template generator)
+3. Take a screenshot of the hero section at 1200px width and crop to 1200x630
+
+Until you add og-image.png, social previews will show the favicon only.
